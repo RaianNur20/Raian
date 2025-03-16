@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Raian/static/css/main.e6c13ad2.css",
-    "main.js": "/Raian/static/js/main.3979e637.js",
+    "main.js": "/Raian/static/js/main.f3fc6be9.js",
     "static/js/453.06e8563c.chunk.js": "/Raian/static/js/453.06e8563c.chunk.js",
     "index.html": "/Raian/index.html",
     "main.e6c13ad2.css.map": "/Raian/static/css/main.e6c13ad2.css.map",
-    "main.3979e637.js.map": "/Raian/static/js/main.3979e637.js.map",
+    "main.f3fc6be9.js.map": "/Raian/static/js/main.f3fc6be9.js.map",
     "453.06e8563c.chunk.js.map": "/Raian/static/js/453.06e8563c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.3979e637.js"
+    "static/js/main.f3fc6be9.js"
   ]
 }
