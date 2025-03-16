@@ -2,26 +2,27 @@ import { useJadwal } from "../context/JadwalContext";
 import { useEffect, useState } from "react";
 
 const KomponenJadwal = ({ jdwl }) => {
+  if (!jdwl || !jdwl.tugas) return null; // Cegah error jika jdwl kosong
+
   const { hapusJadwal, editJadwal } = useJadwal();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState(jdwl.tugas);
 
   useEffect(() => {
-    console.log(`Tugas ditambahkan: ${jdwl.tugas}`);
-    return () => console.log(`Tugas dihapus: ${jdwl.tugas}`);
+    setEditedTask(jdwl.tugas);
   }, [jdwl.tugas]);
 
-  if (!jdwl || !jdwl.tugas) return null;
-
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
+  const handleEdit = () => setIsEditing(true);
 
   const handleSave = () => {
     if (editedTask.trim() !== "") {
-      editJadwal(jdwl.id, editedTask);
+      editJadwal(jdwl.id, editedTask); // Update data di Context
       setIsEditing(false);
     }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleSave();
   };
 
   return (
@@ -32,6 +33,7 @@ const KomponenJadwal = ({ jdwl }) => {
             type="text"
             value={editedTask}
             onChange={(e) => setEditedTask(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <button onClick={handleSave}>Simpan</button>
         </>

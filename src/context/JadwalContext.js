@@ -1,38 +1,34 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const JadwalContext = createContext();
 
-export const JadwalGlobal = ({ children }) => {
-  const [jadwal, setJadwal] = useState([]);
+export const useJadwal = () => useContext(JadwalContext);
 
-  // Lifecycle: Memuat daftar tugas dari localStorage saat aplikasi pertama kali dijalankan (Mounting)
+export const JadwalProvider = ({ children }) => {
+  const [jadwalList, setJadwalList] = useState([]);
+
   useEffect(() => {
-    const simpanJadwal = JSON.parse(localStorage.getItem("jadwal"));
-    if (simpanJadwal) {
-      setJadwal(simpanJadwal);
-    }
+    const savedJadwal = JSON.parse(localStorage.getItem("jadwalList"));
+    if (savedJadwal) setJadwalList(savedJadwal);
   }, []);
 
-  // Lifecycle: Menyimpan daftar tugas ke localStorage setiap kali todos berubah (Updating)
   useEffect(() => {
-    localStorage.setItem("jadwal", JSON.stringify(jadwal));
-  }, [jadwal]);
+    localStorage.setItem("jadwalList", JSON.stringify(jadwalList));
+  }, [jadwalList]);
 
-  const tambahJadwal = (tugas) => {
-    if (!tugas || typeof tugas !== "string") return;
-    console.log("Menambahkan tugas:", tugas); // Debugging
-    setJadwal([...jadwal, { id: Date.now(), tugas: tugas.trim() }]);
+  const editJadwal = (id, newTask) => {
+    setJadwalList((prevList) =>
+      prevList.map((item) => (item.id === id ? { ...item, tugas: newTask } : item))
+    );
   };
 
   const hapusJadwal = (id) => {
-    setJadwal(jadwal.filter((jdwl) => jdwl.id !== id));
+    setJadwalList((prevList) => prevList.filter((item) => item.id !== id));
   };
 
   return (
-    <JadwalContext.Provider value={{ jadwal, tambahJadwal, hapusJadwal }}>
+    <JadwalContext.Provider value={{ jadwalList, editJadwal, hapusJadwal }}>
       {children}
     </JadwalContext.Provider>
   );
 };
-
-export const useJadwal = () => useContext(JadwalContext);
